@@ -10,11 +10,13 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
 
-  final List<ChatMessage> _messages = <ChatMessage> []; 
+  final List<ChatMessage> _messages = <ChatMessage>[];
 
   void _handleSubmitted(String text) {
     _textController.clear();
-    ChatMessage message = ChatMessage(text: text,);
+    ChatMessage message = ChatMessage(
+      text: text,
+    );
     setState(() {
       _messages.insert(0, message);
     });
@@ -33,8 +35,12 @@ class _ChatScreenState extends State<ChatScreen> {
               child: TextField(
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
-                decoration:
-                    InputDecoration.collapsed(hintText: "Enter a message"),
+                decoration: InputDecoration.collapsed(
+                  hintText: "Enter message here",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
               ),
             ),
             Container(
@@ -57,25 +63,25 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: <Widget>[
-          Flexible(
-            child: ListView.builder(
-              padding: EdgeInsets.all(8.0),
-              reverse: true,
-              itemBuilder: (_, index) => _messages[index],
-              itemCount: _messages.length,
-            ),
+      children: <Widget>[
+        Flexible(
+          child: ListView.builder(
+            padding: EdgeInsets.all(8.0),
+            reverse: true,
+            itemBuilder: (_, index) => _messages[index],
+            itemCount: _messages.length,
           ),
-          Divider(
-            height: 1.0,
+        ),
+        Divider(
+          height: 1.0,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-            ),
-            child: _textComposerWidget(),
-          )
-        ],
-      );
+          child: _textComposerWidget(),
+        )
+      ],
+    );
   }
 }
